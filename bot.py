@@ -11,7 +11,7 @@ with open('config.json') as config_file:
     config = json.load( config_file )
 
 #REPLACE '!' WITH ANY CHAR TO CHANGE COMMAND PREFIX
-client = commands.Bot( command_prefix = '!')
+client = commands.Bot( command_prefix = '/')
 serverid = config['serverid']
 
 #Loading All Cogs/Commands in cogs folder
