@@ -9,6 +9,7 @@ class initial( commands.Cog ):
     def __init__(self, client):
         self.client = client
 
+
     @commands.Cog.listener()
     async def on_ready(self):
-        print('PointsBOT is RUNNING.\n')
+        print('PointsBOT is RUNNING.')
