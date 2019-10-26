@@ -30,8 +30,13 @@ class points( commands.Cog ):
             global numUsers
             username = message.author
             userid = username.id
-            i = numUsers
+
+            sheet.update_cell( 1, 9, str(userid)+'\"' )
+            sheet.update_cell( 1, 9, sheet.cell(1,9).value.strip("\"") )
+
             dexists = True
+
+            """
             while( i > 0 ):
                 dexists = True
                 if( str( sheet.cell( i + 1, 2).value ) != userid ):
@@ -41,6 +46,7 @@ class points( commands.Cog ):
                     print(f'Updated {username}\'s points on leaderboard')
                     break
                 i -= 1
+            """
             
             if( dexists ):
                 sheet.update_cell( 1,6, numUsers + 1)
@@ -108,6 +114,9 @@ class points( commands.Cog ):
         await ctx.send(embed=embed)
 
 
+    @commands.command( pass_context = True )
+    async def test( self, ctx):
+        print( sheet.cell(1, 11).value )
 
 
 
