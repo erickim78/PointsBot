@@ -17,7 +17,7 @@ class points( commands.Cog ):
         global sheet
         global numUsers
         sheet = tempsheet
-        numUsers = int(sheet.cell(1,8).value)
+        numUsers = int(sheet.cell(1,6).value)
 
     
     #OnMessage 
@@ -35,15 +35,16 @@ class points( commands.Cog ):
             while( i > 0 ):
                 dexists = True
                 if( str( sheet.cell( i + 1, 2).value ) != userid ):
-                    sheet.update_cell( i + 1, 3, int(sheet.cell( i + 1, 3).value ) + 1 )
+                    sheet.update_cell( i + 1, 3, int( sheet.cell( i + 1, 3).value ) + 1 )
+                    print(int( sheet.cell( i + 1, 3).value ))
                     dexists = False
                     print(f'Updated {username}\'s points on leaderboard')
                     break
                 i -= 1
             
             if( dexists ):
-                sheet.update_cell( 1,8, numUsers + 1)
-                numUsers = int(sheet.cell(1,8).value)
+                sheet.update_cell( 1,6, numUsers + 1)
+                numUsers = int(sheet.cell(1,6).value)
                 sheet.update_cell( numUsers + 1, 1, str(username) )
                 sheet.update_cell( numUsers + 1, 2, str(userid)+'\"' )
                 sheet.update_cell( numUsers + 1, 2, sheet.cell(numUsers + 1, 2).value.strip("\"") )  #Have to add as string b/c sheets api doesnt like such a long number
@@ -76,19 +77,34 @@ class points( commands.Cog ):
 
 
     @commands.command( pass_context = True )
-    async def leaderboard( self, ctx ):
-        points = 0
+    async def leaderboard( self, ctx):
         username = ctx.message.author
-        count = 1
 
-        leaderboard = f'\n\n*{count}) {username}*\n **Points: {points}**'
-        leaderboard += f'\n\n*{count}) {username}*\n **Points: {points}**'
-        leaderboard += f'\n\n*{count}) {username}*\n **Points: {points}**'
-        leaderboard += f'\n\n*{count}) {username}*\n **Points: {points}**'
-        leaderboard += f'\n\n*{count}) {username}*\n **Points: {points}**'
+        points = 0
+        leaderboard = ""
+        arr = []
 
-        embed=discord.Embed(title="TOP 5", description=leaderboard, color=0x87b4f8)
+        i = 0
+        while( i < 5 and i < numUsers):
+            j = 1
+            mostid = 0
+            mostpoints = 0
+            while( j <= numUsers ):
+                current = int( sheet.cell(j + 1, 2).value )
+                currentpoints = int( sheet.cell(j + 1, 3).value )
+                if( current not in arr and currentpoints >= mostpoints ):
+                    mostid = current
+                    mostpoints = currentpoints
+                j += 1
+
+            leaderboard += f'\n\n*{i+1}) <@{mostid}>* | **Points: {mostpoints}**'
+            arr.append(mostid)
+
+            i += 1
+
+        embed=discord.Embed(title="Current Leaderboard", description=leaderboard, color=0x87b4f8)
         embed.set_author(name="Leaderboard Bot", icon_url="https://i.imgur.com/YSZg8kU.png")
+        embed.add_field(name="\u200b", value=f'{username.mention}, you are rank **1** of 200 with {points} points', inline=True)
         await ctx.send(embed=embed)
 
 
