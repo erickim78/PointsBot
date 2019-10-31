@@ -23,7 +23,7 @@ class points( commands.Cog ):
     #OnMessage 
     @commands.Cog.listener()
     async def on_message( self, message ):
-        if( message.author == self.client.user or message.channel.id != 637115299883122708):
+        if( message.author == self.client.user or message.channel.id != 639181046390325269):
             return
 
         if( message.attachments ):
@@ -34,21 +34,7 @@ class points( commands.Cog ):
             sheet.update_cell( 1, 9, str(userid)+'\"' )
             sheet.update_cell( 1, 9, sheet.cell(1,9).value.strip("\"") )
 
-            dexists = True
-
-            """
-            while( i > 0 ):
-                dexists = True
-                if( str( sheet.cell( i + 1, 2).value ) != userid ):
-                    sheet.update_cell( i + 1, 3, int( sheet.cell( i + 1, 3).value ) + 1 )
-                    print(int( sheet.cell( i + 1, 3).value ))
-                    dexists = False
-                    print(f'Updated {username}\'s points on leaderboard')
-                    break
-                i -= 1
-            """
-            
-            if( dexists ):
+            if( sheet.cell( 1, 11).value == "#N/A"):
                 sheet.update_cell( 1,6, numUsers + 1)
                 numUsers = int(sheet.cell(1,6).value)
                 sheet.update_cell( numUsers + 1, 1, str(username) )
@@ -56,29 +42,33 @@ class points( commands.Cog ):
                 sheet.update_cell( numUsers + 1, 2, sheet.cell(numUsers + 1, 2).value.strip("\"") )  #Have to add as string b/c sheets api doesnt like such a long number
                 sheet.update_cell( numUsers + 1, 3, 1)
                 print(f'Added {username} to leaderboard')
+            else:
+                i = int( sheet.cell( 1,11).value )
+                sheet.update_cell( i , 3, int( sheet.cell( i, 3).value ) + 1 )
+                print(f'Updated {username}\'s points on leaderboard')
+                
 
         #await self.client.process_commands(message)  *Dont need anymore?
 
     
     @commands.command( pass_context = True )
-    async def points( self, ctx):
+    async def balance( self, ctx):
         username = ctx.message.author
         userid = username.id
         i = numUsers
-        temp = f'{username.mention} has **no** submissions'
-        while( i > 0 ):
-            if( int( sheet.cell(i + 1,2).value ) == userid ):
-                points = int( sheet.cell(i + 1,3).value )
-                if( points == 1 ):
-                    temp = f'{username.mention} has **{points}** point'
-                else:
-                    temp = f'{username.mention} has **{points}** points'
 
-                break
-            i -= 1
+        sheet.update_cell( 1, 9, str(userid)+'\"' )
+        sheet.update_cell( 1, 9, sheet.cell(1,9).value.strip("\"") )
+
+        if( sheet.cell( 1, 11).value == "#N/A"):
+            temp = f'{username.mention} has **no** submissions'
+        else:
+            i = int( sheet.cell( 1,11).value )
+            points = int( sheet.cell(i,3).value )
+            temp = f'{username.mention} has **{points}** points'
 
         embed=discord.Embed(title="Your Points:", description=temp, color=0x87b4f8)
-        embed.set_author(name="Leaderboard Bot", icon_url="https://i.imgur.com/YSZg8kU.png")
+        embed.set_author(name="Leaderboard Bot", icon_url="https://cdn.discordapp.com/attachments/444636835109404682/639258380296519703/leaderboard-icon-9.png")
         await ctx.send(embed=embed)
 
 
@@ -109,17 +99,16 @@ class points( commands.Cog ):
             i += 1
 
         embed=discord.Embed(title="Current Leaderboard", description=leaderboard, color=0x87b4f8)
-        embed.set_author(name="Leaderboard Bot", icon_url="https://i.imgur.com/YSZg8kU.png")
-        embed.add_field(name="\u200b", value=f'{username.mention}, you are rank **1** of 200 with {points} points', inline=True)
+        embed.set_author(name="Leaderboard Bot", icon_url="https://cdn.discordapp.com/attachments/444636835109404682/639258380296519703/leaderboard-icon-9.png")
+        #embed.add_field(name="\u200b", value=f'{username.mention}, you are rank **1** of {numUsers} with {points} points', inline=True)
         await ctx.send(embed=embed)
 
 
     @commands.command( pass_context = True )
     async def test( self, ctx):
-        print( sheet.cell(1, 11).value )
+        userid = ctx.author.id
+        print( sheet.cell( 1, 11).value )
+        sheet.update_cell( 1, 9, str(userid)+'\"' )
+        sheet.update_cell( 1, 9, sheet.cell(1,9).value.strip("\"") )
+        print( sheet.cell( 1, 11).value )
 
-
-
-
-
-        

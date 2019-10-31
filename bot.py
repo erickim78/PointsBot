@@ -21,7 +21,7 @@ client = gspread.authorize(creds)
 tempsheet = client.open('points').sheet1
 
 #REPLACE '!' WITH ANY CHAR TO CHANGE COMMAND PREFIX
-client = commands.Bot( command_prefix = '/')
+client = commands.Bot( command_prefix = '!')
 serverid = config['serverid']
 
 #Loading All Cogs/Commands in cogs folder
