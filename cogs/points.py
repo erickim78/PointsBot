@@ -23,7 +23,9 @@ class points( commands.Cog ):
     #OnMessage 
     @commands.Cog.listener()
     async def on_message( self, message ):
-        if( message.author == self.client.user or message.channel.id != 639181046390325269 or message.channel.id != 639169858512224256):
+        allowed = [639181046390325269,639169858512224256]
+        if( message.author == self.client.user or message.channel.id not in allowed) :
+            print("Image Detected in other Channel, Exiting")
             return
 
         if( message.attachments ):
