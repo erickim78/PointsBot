@@ -25,7 +25,7 @@ class points( commands.Cog ):
     async def on_message( self, message ):
         allowed = [639181046390325269,639169858512224256]
         if( message.author == self.client.user or message.channel.id not in allowed) :
-            print("Image Detected in other Channel, Exiting")
+            print("Message Detected in other Channel, Returning **(Ignore this message)**")
             return
 
         if( message.attachments ):
@@ -51,9 +51,10 @@ class points( commands.Cog ):
                 sheet.update_cell( i , 3, int( sheet.cell( i, 3).value ) + 1 )
                 print(f'Updated {username}\'s points on leaderboard')
 
-            embed=discord.Embed(title="Success!", description=f'{username.mention}, you earned 1 point!', color=0x87b4f8)
-            embed.set_author(name="Leaderboard Bot", icon_url="https://cdn.discordapp.com/attachments/444636835109404682/639258380296519703/leaderboard-icon-9.png")
-            await message.channel.send(embed=embed)
+            # ***SENDS MESSAGE WHEN A POINT IS EARNED, COMMENTED OUT FOR NOW***
+            #embed=discord.Embed(title="Success!", description=f'{username.mention}, you earned 1 point!', color=0x87b4f8)
+            #embed.set_author(name="Leaderboard Bot", icon_url="https://cdn.discordapp.com/attachments/444636835109404682/639258380296519703/leaderboard-icon-9.png")
+            #await message.channel.get("").send(embed=embed)
                 
 
         #await self.client.process_commands(message)  *Dont need anymore?
@@ -61,6 +62,10 @@ class points( commands.Cog ):
     
     @commands.command( pass_context = True )
     async def balance( self, ctx):
+        allowed = [639928646361939997,639181046390325269]
+        if( ctx.message.channel.id not in allowed ):
+            return
+
         sheetc.login()
 
         username = ctx.message.author
@@ -84,6 +89,10 @@ class points( commands.Cog ):
 
     @commands.command( pass_context = True )
     async def leaderboard( self, ctx):
+        allowed = [639181046390325269]
+        if( ctx.message.channel.id not in allowed ):
+            return
+
         sheetc.login()
 
         username = ctx.message.author
@@ -117,6 +126,10 @@ class points( commands.Cog ):
 
     @commands.command( pass_context = True )
     async def test( self, ctx):
+        allowed = [639181046390325269]
+        if( ctx.message.channel.id not in allowed ):
+            return
+    
         userid = ctx.author.id
         print( sheet.cell( 1, 11).value )
         sheet.update_cell( 1, 9, str(userid)+'\"' )
