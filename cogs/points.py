@@ -4,6 +4,7 @@ from discord.ext import commands
 #Global Variables
 sheet = None
 numUsers = None
+sheetc = None
 
 def setup( client ):
     client.add_cog( points(client) )
@@ -13,13 +14,12 @@ class points( commands.Cog ):
     def __init__(self, client):
         self.client = client
 
-        from bot import tempsheet
-        global sheet
-        global numUsers
+        from bot import tempsheet, sheetclient
+        global sheet, numUsers, sheetc
         sheet = tempsheet
         numUsers = int(sheet.cell(1,6).value)
+        sheetc = sheetclient
 
-    
     #OnMessage 
     @commands.Cog.listener()
     async def on_message( self, message ):
@@ -29,6 +29,8 @@ class points( commands.Cog ):
             return
 
         if( message.attachments ):
+            sheetc.login()
+
             global numUsers
             username = message.author
             userid = username.id
@@ -55,6 +57,8 @@ class points( commands.Cog ):
     
     @commands.command( pass_context = True )
     async def balance( self, ctx):
+        sheetc.login()
+
         username = ctx.message.author
         userid = username.id
         i = numUsers
@@ -76,8 +80,9 @@ class points( commands.Cog ):
 
     @commands.command( pass_context = True )
     async def leaderboard( self, ctx):
-        username = ctx.message.author
+        sheetc.login()
 
+        username = ctx.message.author
         points = 0
         leaderboard = ""
         arr = []

@@ -17,8 +17,8 @@ with open('config.json') as config_file:
 #Sheets Oath
 scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
 creds = ServiceAccountCredentials.from_json_keyfile_name('sheetscredentials.json', scope)
-client = gspread.authorize(creds)
-tempsheet = client.open('points').sheet1
+sheetclient = gspread.authorize(creds)
+tempsheet = sheetclient.open('points').sheet1
 
 #REPLACE '!' WITH ANY CHAR TO CHANGE COMMAND PREFIX
 client = commands.Bot( command_prefix = '!')
