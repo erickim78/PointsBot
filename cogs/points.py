@@ -50,6 +50,10 @@ class points( commands.Cog ):
                 i = int( sheet.cell( 1,11).value )
                 sheet.update_cell( i , 3, int( sheet.cell( i, 3).value ) + 1 )
                 print(f'Updated {username}\'s points on leaderboard')
+
+            embed=discord.Embed(title="Success!", description=f'{username.mention}, you earned 1 point!', color=0x87b4f8)
+            embed.set_author(name="Leaderboard Bot", icon_url="https://cdn.discordapp.com/attachments/444636835109404682/639258380296519703/leaderboard-icon-9.png")
+            await message.channel.send(embed=embed)
                 
 
         #await self.client.process_commands(message)  *Dont need anymore?
