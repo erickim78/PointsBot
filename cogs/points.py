@@ -62,7 +62,7 @@ class points( commands.Cog ):
     
     @commands.command( pass_context = True )
     async def balance( self, ctx):
-        allowed = [639928646361939997,639181046390325269]
+        allowed = [639928646361939997,639181046390325269, 639953083262304266]
         if( ctx.message.channel.id not in allowed ):
             return
 
@@ -89,7 +89,7 @@ class points( commands.Cog ):
 
     @commands.command( pass_context = True )
     async def leaderboard( self, ctx):
-        allowed = [639181046390325269]
+        allowed = [639181046390325269, 639953083262304266]
         if( ctx.message.channel.id not in allowed ):
             return
 
