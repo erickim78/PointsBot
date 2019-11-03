@@ -91,41 +91,28 @@ class points( commands.Cog ):
         allowed = [639181046390325269, 639953083262304266]
         if( ctx.message.channel.id not in allowed ):
             return
-
+        
         sheetc.login()
-
-        #username = ctx.message.author
-        #points = 0
         leaderboard = ""
-        arr = []
-
-        i = 0
-        while( i < 5 and i < numUsers):
-            j = 1
-            mostid = 0
-            mostpoints = 0
-            while( j <= numUsers ):
-                current = int( sheet.cell(j + 1, 2).value )
-                currentpoints = int( sheet.cell(j + 1, 3).value )
-                if( current not in arr and currentpoints >= mostpoints ):
-                    mostid = current
-                    mostpoints = currentpoints
-                j += 1
-
-            leaderboard += f'\n\n*{i+1}) <@{mostid}>* | **Points: {mostpoints}**'
-            arr.append(mostid)
-
-            i += 1
+        i = 2
+        while( i < 7 ):
+            userid = sheet.cell( i, 13).value
+            points = sheet.cell( i, 14).value
+            leaderboard += f'\n\n*{i-1}) <@{userid}>* | **Points: {points}**'
+            i = i + 1
 
         embed=discord.Embed(title="Current Leaderboard", description=leaderboard, color=0x87b4f8)
         embed.set_author(name="Leaderboard Bot", icon_url="https://cdn.discordapp.com/attachments/444636835109404682/639258380296519703/leaderboard-icon-9.png")
-        #embed.add_field(name="\u200b", value=f'{username.mention}, you are rank **1** of {numUsers} with {points} points', inline=True)
         await ctx.send(embed=embed)
 
 
     @commands.command( pass_context = True )
     @commands.has_permissions( administrator = True )
     async def addpoints( self, ctx ):
+        allowed = [639181076039729162, 639181046390325269]
+        if( ctx.message.channel.id not in allowed ):
+            return
+
         sheetc.login()
 
         if len(ctx.message.mentions) == 0:
@@ -175,10 +162,13 @@ class points( commands.Cog ):
                 return
 
 
-
     @commands.command( pass_context = True )
     @commands.has_permissions( administrator = True )
     async def removepoints( self, ctx ):
+        allowed = [639181076039729162, 639181046390325269]
+        if( ctx.message.channel.id not in allowed ):
+            return
+            
         sheetc.login()
 
         if len(ctx.message.mentions) == 0:
@@ -226,7 +216,6 @@ class points( commands.Cog ):
                 await ctx.send(embed=embed)
                 print(f'Updated {username}\'s points on leaderboard')
                 return
-
 
 
     @commands.command( pass_context = True )
