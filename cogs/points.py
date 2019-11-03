@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 
+from datetime import date
+
 #Global Variables
 sheet = None
 numUsers = None
@@ -220,13 +222,6 @@ class points( commands.Cog ):
 
     @commands.command( pass_context = True )
     async def test( self, ctx):
-        allowed = [639181046390325269]
-        if( ctx.message.channel.id not in allowed ):
-            return
-    
-        userid = ctx.author.id
-        print( sheet.cell( 1, 11).value )
-        sheet.update_cell( 1, 9, str(userid)+'\"' )
-        sheet.update_cell( 1, 9, sheet.cell(1,9).value.strip("\"") )
-        print( sheet.cell( 1, 11).value )
+        today = date.today()
+        print("Today's date:", today)
 
