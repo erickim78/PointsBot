@@ -25,7 +25,7 @@ class points( commands.Cog ):
     #OnMessage 
     @commands.Cog.listener()
     async def on_message( self, message ):
-        allowed = [639181046390325269,639169858512224256]
+        allowed = [642483689137111080, 642483696271884309]
         if( message.author == self.client.user or message.channel.id not in allowed) :
             print("Message Detected in other Channel, Returning **(Ignore this message)**")
             return
@@ -63,7 +63,7 @@ class points( commands.Cog ):
     
     @commands.command( pass_context = True )
     async def balance( self, ctx):
-        allowed = [639928646361939997,639181046390325269, 639953083262304266]
+        allowed = [642483690575757347, 642483696271884309]
         if( ctx.message.channel.id not in allowed ):
             return
 
@@ -90,7 +90,7 @@ class points( commands.Cog ):
 
     @commands.command( pass_context = True )
     async def leaderboard( self, ctx):
-        allowed = [639181046390325269, 639953083262304266]
+        allowed = [642483680132071450, 642483696271884309]
         if( ctx.message.channel.id not in allowed ):
             return
         
@@ -111,7 +111,7 @@ class points( commands.Cog ):
     @commands.command( pass_context = True )
     @commands.has_permissions( administrator = True )
     async def addpoints( self, ctx ):
-        allowed = [639181076039729162, 639181046390325269]
+        allowed = [642483696271884309, 642483694287847477]
         if( ctx.message.channel.id not in allowed ):
             return
 
@@ -167,7 +167,7 @@ class points( commands.Cog ):
     @commands.command( pass_context = True )
     @commands.has_permissions( administrator = True )
     async def removepoints( self, ctx ):
-        allowed = [639181076039729162, 639181046390325269]
+        allowed = [642483696271884309, 642483694287847477]
         if( ctx.message.channel.id not in allowed ):
             return
             
